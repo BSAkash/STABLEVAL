@@ -1,0 +1,383 @@
+{
+  "param": "labels_per_item",
+  "values": [
+    3,
+    5,
+    7,
+    9
+  ],
+  "configs": [
+    "configs/ablation_labels/labels_3.yaml",
+    "configs/ablation_labels/labels_5.yaml",
+    "configs/ablation_labels/labels_7.yaml",
+    "configs/ablation_labels/labels_9.yaml"
+  ],
+  "metrics": [
+    {
+      "mv": {
+        "mse_mean": 0.004780896666666666,
+        "mse_std": 0.0008652547950941002,
+        "mse_se": 8.652547950941002e-05,
+        "kendall_tau_mean": 0.984655168994919,
+        "kendall_tau_std": 0.04175029413639978,
+        "kendall_tau_se": 0.004175029413639978,
+        "ranking_accuracy_mean": 0.992,
+        "ranking_accuracy_std": 0.021145002036204938,
+        "ranking_accuracy_se": 0.002114500203620494,
+        "stability_mean": 0.9853488452754582,
+        "stability_std": 0.027028468388250106,
+        "stability_se": 0.0027028468388250104
+      },
+      "ds": {
+        "mse_mean": 0.0035936416666666666,
+        "mse_std": 0.0010032039687850674,
+        "mse_se": 0.00010032039687850675,
+        "kendall_tau_mean": 0.9839999999999999,
+        "kendall_tau_std": 0.04332820482472511,
+        "kendall_tau_se": 0.004332820482472511,
+        "ranking_accuracy_mean": 0.9920000000000002,
+        "ranking_accuracy_std": 0.02166410241236255,
+        "ranking_accuracy_se": 0.002166410241236255,
+        "stability_mean": 0.9894666666666666,
+        "stability_std": 0.018599402618841698,
+        "stability_se": 0.0018599402618841698
+      },
+      "pec": {
+        "mse_mean": 0.005705772190222622,
+        "mse_std": 0.0014410846296925234,
+        "mse_se": 0.00014410846296925234,
+        "kendall_tau_mean": 0.9919999999999998,
+        "kendall_tau_std": 0.03166491223210111,
+        "kendall_tau_se": 0.0031664912232101114,
+        "ranking_accuracy_mean": 0.996,
+        "ranking_accuracy_std": 0.015832456116050556,
+        "ranking_accuracy_se": 0.0015832456116050557,
+        "stability_mean": 0.9894666666666666,
+        "stability_std": 0.018599402618841698,
+        "stability_se": 0.0018599402618841698
+      }
+    },
+    {
+      "mv": {
+        "mse_mean": 0.002621531666666666,
+        "mse_std": 0.00047769747614933466,
+        "mse_se": 4.7769747614933465e-05,
+        "kendall_tau_mean": 0.9959999999999998,
+        "kendall_tau_std": 0.02274496281230931,
+        "kendall_tau_se": 0.002274496281230931,
+        "ranking_accuracy_mean": 0.9980000000000001,
+        "ranking_accuracy_std": 0.011372481406154652,
+        "ranking_accuracy_se": 0.0011372481406154652,
+        "stability_mean": 0.9875931013969513,
+        "stability_std": 0.0213878701288158,
+        "stability_se": 0.00213878701288158
+      },
+      "ds": {
+        "mse_mean": 0.0015647950000000006,
+        "mse_std": 0.000404705153204843,
+        "mse_se": 4.04705153204843e-05,
+        "kendall_tau_mean": 0.9973333333333332,
+        "kendall_tau_std": 0.01866666666666666,
+        "kendall_tau_se": 0.0018666666666666662,
+        "ranking_accuracy_mean": 0.9986666666666667,
+        "ranking_accuracy_std": 0.00933333333333333,
+        "ranking_accuracy_se": 0.0009333333333333331,
+        "stability_mean": 0.9907999999999998,
+        "stability_std": 0.019568228217075583,
+        "stability_se": 0.0019568228217075583
+      },
+      "pec": {
+        "mse_mean": 0.002355334708081831,
+        "mse_std": 0.0005126491108525136,
+        "mse_se": 5.126491108525136e-05,
+        "kendall_tau_mean": 0.9973333333333332,
+        "kendall_tau_std": 0.01866666666666666,
+        "kendall_tau_se": 0.0018666666666666662,
+        "ranking_accuracy_mean": 0.9986666666666667,
+        "ranking_accuracy_std": 0.00933333333333333,
+        "ranking_accuracy_se": 0.0009333333333333331,
+        "stability_mean": 0.9907999999999998,
+        "stability_std": 0.019568228217075583,
+        "stability_se": 0.0019568228217075583
+      }
+    },
+    {
+      "mv": {
+        "mse_mean": 0.0017274066666666664,
+        "mse_std": 0.0003912381246476085,
+        "mse_se": 3.912381246476085e-05,
+        "kendall_tau_mean": 0.996,
+        "kendall_tau_std": 0.022744962812309304,
+        "kendall_tau_se": 0.0022744962812309305,
+        "ranking_accuracy_mean": 0.9980000000000001,
+        "ranking_accuracy_std": 0.011372481406154652,
+        "ranking_accuracy_se": 0.0011372481406154652,
+        "stability_mean": 0.9871275844974595,
+        "stability_std": 0.01871756678647928,
+        "stability_se": 0.0018717566786479278
+      },
+      "ds": {
+        "mse_mean": 0.0010222883333333335,
+        "mse_std": 0.0002927538384367391,
+        "mse_se": 2.9275383843673914e-05,
+        "kendall_tau_mean": 0.9933333333333332,
+        "kendall_tau_std": 0.029059326290271147,
+        "kendall_tau_se": 0.0029059326290271146,
+        "ranking_accuracy_mean": 0.9966666666666667,
+        "ranking_accuracy_std": 0.014529663145135577,
+        "ranking_accuracy_se": 0.0014529663145135578,
+        "stability_mean": 0.9915999999999999,
+        "stability_std": 0.016829075369068136,
+        "stability_se": 0.0016829075369068137
+      },
+      "pec": {
+        "mse_mean": 0.001438343697741765,
+        "mse_std": 0.0003231645856254962,
+        "mse_se": 3.231645856254962e-05,
+        "kendall_tau_mean": 0.9946666666666666,
+        "kendall_tau_std": 0.02612789058968723,
+        "kendall_tau_se": 0.002612789058968723,
+        "ranking_accuracy_mean": 0.9973333333333335,
+        "ranking_accuracy_std": 0.013063945294843617,
+        "ranking_accuracy_se": 0.0013063945294843617,
+        "stability_mean": 0.9915999999999999,
+        "stability_std": 0.016829075369068136,
+        "stability_se": 0.0016829075369068137
+      }
+    },
+    {
+      "mv": {
+        "mse_mean": 0.0010926500000000001,
+        "mse_std": 0.0002815234404094976,
+        "mse_se": 2.815234404094976e-05,
+        "kendall_tau_mean": 0.9999999999999999,
+        "kendall_tau_std": 0.0,
+        "kendall_tau_se": 0.0,
+        "ranking_accuracy_mean": 1.0,
+        "ranking_accuracy_std": 0.0,
+        "ranking_accuracy_se": 0.0,
+        "stability_mean": 0.9874959758148885,
+        "stability_std": 0.02066319706080397,
+        "stability_se": 0.002066319706080397
+      },
+      "ds": {
+        "mse_mean": 0.0007023050000000002,
+        "mse_std": 0.00020110982634565075,
+        "mse_se": 2.0110982634565075e-05,
+        "kendall_tau_mean": 0.9969942511641261,
+        "kendall_tau_std": 0.01892138211755723,
+        "kendall_tau_se": 0.0018921382117557228,
+        "ranking_accuracy_mean": 0.9983333333333334,
+        "ranking_accuracy_std": 0.00986013297183269,
+        "ranking_accuracy_se": 0.0009860132971832689,
+        "stability_mean": 0.9921333333333331,
+        "stability_std": 0.017698210832359992,
+        "stability_se": 0.0017698210832359992
+      },
+      "pec": {
+        "mse_mean": 0.0009554224217932574,
+        "mse_std": 0.00022670808424180873,
+        "mse_se": 2.2670808424180874e-05,
+        "kendall_tau_mean": 0.9973333333333332,
+        "kendall_tau_std": 0.01866666666666666,
+        "kendall_tau_se": 0.0018666666666666662,
+        "ranking_accuracy_mean": 0.9986666666666667,
+        "ranking_accuracy_std": 0.00933333333333333,
+        "ranking_accuracy_se": 0.0009333333333333331,
+        "stability_mean": 0.9921333333333331,
+        "stability_std": 0.017698210832359992,
+        "stability_se": 0.0017698210832359992
+      }
+    }
+  ],
+  "full_configs": [
+    {
+      "n_agents": 6,
+      "n_items": 500,
+      "agent_qualities": [
+        0.85,
+        0.8,
+        0.7,
+        0.55,
+        0.35,
+        0.2
+      ],
+      "n_annotators": 30,
+      "labels_per_item": 3,
+      "annotator_distribution": {
+        "normal": 18,
+        "strict": 6,
+        "lenient": 4,
+        "adversarial": 2
+      },
+      "hard_item_prob": 0.2,
+      "easy_beta_params": [
+        2,
+        12
+      ],
+      "hard_beta_params": [
+        6,
+        3
+      ],
+      "class_labels": [
+        0,
+        1,
+        2
+      ],
+      "credit_mapping": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "partial_correct_prob": 0.35,
+      "n_repetitions": 100,
+      "n_stability_subsamples": 10,
+      "subsample_labels": 2,
+      "save_raw_data": true,
+      "save_confusion_matrices": true,
+      "save_posteriors": true,
+      "output_dir": "results"
+    },
+    {
+      "n_agents": 6,
+      "n_items": 500,
+      "agent_qualities": [
+        0.85,
+        0.8,
+        0.7,
+        0.55,
+        0.35,
+        0.2
+      ],
+      "n_annotators": 30,
+      "labels_per_item": 5,
+      "annotator_distribution": {
+        "normal": 18,
+        "strict": 6,
+        "lenient": 4,
+        "adversarial": 2
+      },
+      "hard_item_prob": 0.2,
+      "easy_beta_params": [
+        2,
+        12
+      ],
+      "hard_beta_params": [
+        6,
+        3
+      ],
+      "class_labels": [
+        0,
+        1,
+        2
+      ],
+      "credit_mapping": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "partial_correct_prob": 0.35,
+      "n_repetitions": 100,
+      "n_stability_subsamples": 10,
+      "subsample_labels": 3,
+      "save_raw_data": true,
+      "save_confusion_matrices": true,
+      "save_posteriors": true,
+      "output_dir": "results"
+    },
+    {
+      "n_agents": 6,
+      "n_items": 500,
+      "agent_qualities": [
+        0.85,
+        0.8,
+        0.7,
+        0.55,
+        0.35,
+        0.2
+      ],
+      "n_annotators": 30,
+      "labels_per_item": 7,
+      "annotator_distribution": {
+        "normal": 18,
+        "strict": 6,
+        "lenient": 4,
+        "adversarial": 2
+      },
+      "hard_item_prob": 0.2,
+      "easy_beta_params": [
+        2,
+        12
+      ],
+      "hard_beta_params": [
+        6,
+        3
+      ],
+      "class_labels": [
+        0,
+        1,
+        2
+      ],
+      "credit_mapping": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "partial_correct_prob": 0.35,
+      "n_repetitions": 100,
+      "n_stability_subsamples": 10,
+      "subsample_labels": 3,
+      "save_raw_data": true,
+      "save_confusion_matrices": true,
+      "save_posteriors": true,
+      "output_dir": "results"
+    },
+    {
+      "n_agents": 6,
+      "n_items": 500,
+      "agent_qualities": [
+        0.85,
+        0.8,
+        0.7,
+        0.55,
+        0.35,
+        0.2
+      ],
+      "n_annotators": 30,
+      "labels_per_item": 9,
+      "annotator_distribution": {
+        "normal": 18,
+        "strict": 6,
+        "lenient": 4,
+        "adversarial": 2
+      },
+      "hard_item_prob": 0.2,
+      "easy_beta_params": [
+        2,
+        12
+      ],
+      "hard_beta_params": [
+        6,
+        3
+      ],
+      "class_labels": [
+        0,
+        1,
+        2
+      ],
+      "credit_mapping": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "partial_correct_prob": 0.35,
+      "n_repetitions": 100,
+      "n_stability_subsamples": 10,
+      "subsample_labels": 3,
+      "save_raw_data": true,
+      "save_confusion_matrices": true,
+      "save_posteriors": true,
+      "output_dir": "results"
+    }
+  ]
+}

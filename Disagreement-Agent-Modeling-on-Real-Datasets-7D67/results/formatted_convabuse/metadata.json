@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-01-28T16:16:05.229175",
+  "data_summary": {
+    "n_annotations": 9571,
+    "n_items": 2894,
+    "n_agents": 2,
+    "n_annotators": 8,
+    "label_distribution": {
+      "0": 7839,
+      "2": 1030,
+      "1": 702
+    },
+    "annotations_per_item": {
+      "count": 2894.0,
+      "mean": 3.3071872840359364,
+      "std": 1.303815362163909,
+      "min": 2.0,
+      "25%": 3.0,
+      "50%": 3.0,
+      "75%": 4.0,
+      "max": 8.0
+    },
+    "annotations_per_annotator": {
+      "count": 8.0,
+      "mean": 1196.375,
+      "std": 161.36908670144086,
+      "min": 827.0,
+      "25%": 1189.25,
+      "50%": 1236.0,
+      "75%": 1304.25,
+      "max": 1316.0
+    },
+    "items_per_agent": {
+      "count": 2.0,
+      "mean": 1447.0,
+      "std": 1555.6349186104046,
+      "min": 347.0,
+      "25%": 897.0,
+      "50%": 1447.0,
+      "75%": 1997.0,
+      "max": 2547.0
+    }
+  },
+  "methods": [
+    "majority_vote",
+    "dawid_skene_hard",
+    "posterior_expected_credit"
+  ]
+}

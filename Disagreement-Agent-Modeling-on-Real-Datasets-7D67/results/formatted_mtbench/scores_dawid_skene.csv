@@ -1,0 +1,7 @@
+agent_id,score_ds,n_items
+gpt-4,0.85625,160
+gpt-3.5-turbo,0.834375,160
+claude-v1,0.79375,160
+vicuna-13b-v1.2,0.61875,160
+alpaca-13b,0.284375,160
+llama-13b,0.1125,160

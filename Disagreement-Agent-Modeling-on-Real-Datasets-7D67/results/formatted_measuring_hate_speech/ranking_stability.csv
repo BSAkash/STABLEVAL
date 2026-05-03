@@ -1,0 +1,4 @@
+method,mean_rank_std,mean_rank_range
+Majority Vote,0.0,0.0
+Dawid-Skene (Hard),0.2356060357495806,0.5
+Posterior Expected Credit,0.31443761767853895,1.25
