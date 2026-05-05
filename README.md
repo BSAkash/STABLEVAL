@@ -1,45 +1,67 @@
 # STABLEVAL: Disagreement-Aware and Stable Evaluation of AI Systems
 
-**ICML 2026** — *Proceedings of the 43rd International Conference on Machine Learning, Seoul, South Korea*
+**ICML 2026** — *Proceedings of the 43rd International Conference on Machine Learning, Seoul, South Korea. PMLR 306.*
+
+[![arXiv](https://img.shields.io/badge/arXiv-2605.02122-b31b1b.svg)](https://arxiv.org/abs/2605.02122)
 
 > Akash Bonagiri\*, Gerard Janno Anderias\*, Saee Patil, Angelina Lai, Devang Borkar, Gezheng Kang, Ishant Gandhi, Setareh Rafatirad, Houman Homayoun
 >
-> University of California, Davis &nbsp;|&nbsp; \*Equal contribution
+> Department of Computer Science, University of California, Davis &nbsp;|&nbsp; \*Equal contribution
 >
 > Correspondence: `sbonagiri@ucdavis.edu`
 
 ---
 
-## Overview
+## Abstract
 
-Human evaluation is the gold standard for assessing AI systems — but annotators disagree. Standard majority vote aggregation discards annotator reliability and item-level ambiguity, producing agent rankings that shift under small changes in annotator composition.
-
-**STABLEVAL** is a disagreement-aware evaluation framework that:
-- Models latent item correctness and annotator-specific confusion patterns
-- Computes **Posterior Expected Credit (PEC)** — a probabilistic score that preserves graded correctness and uncertainty
-- Formalizes **ranking stability** as a first-class evaluation objective, demonstrating that recovering latent labels ≠ producing stable rankings
-- Produces agent rankings that are robust to annotator subsampling and heterogeneous noise
-
-Across synthetic stress tests and four real-world benchmarks (MT-Bench, ConvAbuse, QAGS, MSLR), STABLEVAL consistently outperforms majority vote and Dawid–Skene in ranking stability under annotator heterogeneity and adversarial noise.
+Human evaluation remains the primary standard for assessing modern AI systems, yet annotator disagreement, bias, and variability make system rankings fragile under standard majority vote aggregation. Majority vote discards annotator reliability and item-level ambiguity, often yielding unstable comparisons across annotator subsets. We introduce **STABLEVAL**, a disagreement-aware evaluation framework that models latent item correctness and annotator-specific confusion patterns to produce posterior expected item credit and calibrated agent-level scores. Unlike label-denoising approaches such as Dawid–Skene, STABLEVAL is explicitly designed for stable and uncertainty-aware system evaluation rather than hard label recovery. We formalize ranking stability as a first-class evaluation objective and demonstrate that majority vote exhibits increasing score error and ranking instability under annotator heterogeneity and adversarial noise, while STABLEVAL yields more stable and statistically grounded system rankings.
 
 ---
 
 ## Key Idea
 
-Majority vote collapses multi-annotator judgments into a single hard label, losing two critical signals:
+Disagreement is not noise to suppress — it is signal to model. The central challenge in AI evaluation is not merely recovering a denoised label, but producing **stable and uncertainty-aware system comparisons** under realistic annotator variability.
 
-| Signal | What majority vote discards | How STABLEVAL uses it |
+STABLEVAL models each annotator with a confusion matrix $\pi_r[c, o] = P(y_{ir} = o \mid z_i = c)$ and runs EM to infer per-item posterior correctness distributions. Agent scores are then **Posterior Expected Credit (PEC)**:
+
+$$\text{credit}(i) = \sum_{c=0}^{K-1} \gamma_{ic} \cdot v(c), \qquad S(a) = \frac{1}{|\mathcal{I}_a|} \sum_{i \in \mathcal{I}_a} \text{credit}(i)$$
+
+where $\gamma_{ic} = P(z_i = c \mid \text{observations})$ retains the full posterior rather than collapsing to a hard label. This smooth, reliability-weighted aggregation mitigates the discrete ranking discontinuities that make majority vote inherently unstable under annotator subsampling (Proposition 1), while STABLEVAL achieves asymptotically stable rankings under its generative model (Proposition 2).
+
+---
+
+## Results
+
+### MT-Bench — Agent Scores (high-disagreement regime)
+
+| Agent | MV | DS | PEC | Δ(PEC−MV) |
+|---|---|---|---|---|
+| gpt-4 | 0.791 | 0.856 | 0.847 | +0.056 |
+| gpt-3.5-turbo | 0.781 | 0.834 | 0.840 | +0.059 |
+| claude-v1 | 0.744 | 0.794 | 0.778 | +0.035 |
+| vicuna-13b-v1.2 | 0.478 | 0.619 | 0.622 | +0.144 |
+| alpaca-13b | 0.150 | 0.284 | 0.290 | +0.140 |
+| llama-13b | 0.084 | 0.113 | 0.131 | +0.046 |
+
+### MT-Bench — Ranking Stability (lower = more stable)
+
+| Method | Mean Rank Std | Mean Rank Range |
 |---|---|---|
-| **Annotator reliability** | Treats all annotators equally | Learns per-annotator confusion matrices |
-| **Item ambiguity** | Forces a single binary outcome | Preserves full posterior over correctness levels |
+| Majority Vote | 0.259 | 1.000 |
+| Dawid-Skene (Hard) | 0.223 | 0.667 |
+| **Posterior Expected Credit** | **0.197** | **0.667** |
 
-The core scoring formula is:
+### Synthetic Stress Tests — MSE (×10⁻³)
 
-$$\text{credit}(i) = \sum_{c=0}^{K-1} \gamma_{ic} \cdot v(c)$$
+| Configuration | Setting | MV | DS | PEC |
+|---|---|---|---|---|
+| Adversarial Annotators | 40% | 8.42 | **3.47** | 5.54 |
+| Strict Annotators | 40% | 3.65 | **1.69** | 2.60 |
+| Lenient Annotators | 40% | 4.44 | **1.87** | 2.86 |
+| Hard Items | 20% | 2.62 | **1.56** | 2.36 |
+| Labels per Item | 3 | 4.78 | **3.59** | 5.71 |
 
-where $\gamma_{ic} = P(z_i = c \mid \text{observations})$ is inferred via EM and $v(c)$ maps correctness levels to numeric credit (e.g., $[0, 0.5, 1]$ for incorrect / partial / correct).
-
-Agent scores are the mean item credit over all evaluated outputs, naturally incorporating annotator reliability and uncertainty.
+PEC consistently outperforms MV and achieves near-perfect Kendall's τ stability (e.g., τ = 1.000 in the no-hard-item regime). Stability gains are most pronounced in high-disagreement settings; in high-consensus regimes (ConvAbuse, QAGS), all methods converge.
 
 ---
 
@@ -51,14 +73,14 @@ STABLEVAL/
 │   ├── run_evaluation.py          # Main entry point
 │   ├── src/
 │   │   ├── disagreement_model.py  # EM inference (Dawid-Skene / PEC)
-│   │   ├── scoring.py             # Agent scoring & bootstrap CI
+│   │   ├── scoring.py             # Agent scoring & bootstrap CIs
 │   │   ├── majority_vote.py       # Baseline aggregation
 │   │   ├── data_loader.py         # CSV ingestion & preprocessing
 │   │   └── visualization.py       # Plots & diagnostics
 │   ├── data/                      # Place your annotation CSVs here
 │   └── requirements.txt
 │
-└── Disagreement_synthetic_modeling-40E0/                # Synthetic study
+└── Disagreement_synthetic_modeling-40E0/                # Synthetic controlled study
     ├── scripts/
     │   ├── run_ablation.py        # Ablation over noise configurations
     │   ├── run_single.py          # Single-config run
@@ -101,20 +123,23 @@ python run_evaluation.py --data-dir data/processed --output-dir results
 
 | Flag | Default | Description |
 |---|---|---|
-| `--bootstrap N` | 10 | Bootstrap iterations for 95% CIs |
-| `--stability N` | 50 | Annotator-subset samples for stability |
+| `--bootstrap N` | 10 | Bootstrap iterations for 95% CIs (paper uses 1,000) |
+| `--stability N` | 50 | Annotator-subset samples for ranking stability |
 | `--n-classes K` | auto | Number of label classes |
 | `--combine` | false | Merge all CSVs into one dataset |
+| `--seed` | 42 | Random seed for reproducibility |
 
 **Outputs** (saved to `results/<dataset>/`):
 
-- `agent_scores_comparison.csv` — MV / DS / PEC scores per agent
-- `item_ambiguity.csv` — posterior entropy per item
-- `annotator_quality.csv` — learned accuracy, leniency, strictness
-- `ranking_stability.csv` — Kendall τ under annotator subsampling
-- `bootstrap_*.csv` — 95% confidence intervals
-- `evaluation_report.md` — auto-generated summary
-- `plots/` — score comparison, ranking, ambiguity, annotator diagnostics
+| File | Contents |
+|---|---|
+| `agent_scores_comparison.csv` | MV / DS / PEC scores per agent with rank changes |
+| `item_ambiguity.csv` | Posterior entropy per item |
+| `annotator_quality.csv` | Learned accuracy, leniency, strictness per annotator |
+| `ranking_stability.csv` | Kendall's τ under annotator subsampling |
+| `bootstrap_*.csv` | 95% confidence intervals |
+| `evaluation_report.md` | Auto-generated summary |
+| `plots/` | Score comparison, ranking, ambiguity, annotator diagnostics |
 
 ---
 
@@ -137,13 +162,13 @@ python scripts/run_ablation.py configs/ablation_adversarial/*.yaml
 python scripts/run_ablation.py configs/ablation_strict/*.yaml
 python scripts/run_ablation.py configs/ablation_lenient/*.yaml
 
-# Hard item probability
+# Hard item probability (0.0, 0.1, 0.2)
 python scripts/run_ablation.py configs/ablation_hard_prob/*.yaml
 
-# Labels per item (with stability metrics)
+# Labels per item (3, 5, 7, 9) — with stability metrics
 python scripts/run_ablation.py configs/ablation_labels/*.yaml --compute-stability
 
-# Agent quality gaps
+# Agent quality gaps (tight vs. wide)
 python scripts/run_ablation.py configs/ablation_gaps/*.yaml
 
 # Then generate plots
@@ -168,11 +193,11 @@ python scripts/generate_plots.py results/comparison_TIMESTAMP/
 | Labels per item | 5 |
 | Hard item probability | 0.2 |
 
+The complete ablation study runs in approximately 5 hours on a single Intel Core i9 machine using Python's `multiprocessing` module for parallelism.
+
 ---
 
 ## Methods
-
-Three aggregation methods are compared throughout:
 
 | Method | Description |
 |---|---|
@@ -180,7 +205,18 @@ Three aggregation methods are compared throughout:
 | **Dawid–Skene Hard (DS)** | EM initialized from MV labels; optimizes latent label recovery |
 | **Posterior Expected Credit (PEC)** | EM with soft initialization; preserves full posterior for stable scoring |
 
-STABLEVAL = PEC. Unlike DS, it does not collapse posteriors to hard labels, making it explicitly designed for evaluation stability rather than label denoising.
+STABLEVAL = PEC. The key distinction from Dawid–Skene: rather than collapsing the posterior $\gamma_{ic}$ to a hard label via $\arg\max$, STABLEVAL retains the full distribution. This is not incidental — evaluation stability requires preserving uncertainty rather than discarding it.
+
+---
+
+## Benchmarks
+
+| Dataset | Domain | Annotators | Pairwise Agreement | Regime |
+|---|---|---|---|---|
+| MT-Bench | Preference (6 models, QA / summarization) | 65 | 53.0% | High disagreement |
+| ConvAbuse | Conversational safety (E.L.I.Z.A., CarbonBot) | 8 | 84.4% | High consensus |
+| QAGS | Summarization factuality (CNN, XSUM) | 169 | 77.1% | High consensus |
+| MSLR | Medical evidence summarization | 2 | 69.2% | Sparse annotators |
 
 ---
 
@@ -188,22 +224,20 @@ STABLEVAL = PEC. Unlike DS, it does not collapse posteriors to hard labels, maki
 
 - **MSE** — mean squared error of agent scores vs. ground truth (synthetic only)
 - **Kendall's τ** — rank correlation between method-induced and ground-truth rankings
-- **Ranking Stability** — expected Kendall's τ under random annotator subsampling
-- **Annotator Diagnostics** — learned per-annotator accuracy, leniency, and strictness
-- **Item Ambiguity** — entropy of posterior correctness distribution
+- **Ranking Stability** — expected Kendall's τ under random annotator subsampling (the primary objective)
+- **Annotator Diagnostics** — learned per-annotator accuracy, leniency, and strictness from confusion matrices
+- **Item Ambiguity** — entropy of posterior correctness distribution per item
 
 ---
 
-## Benchmarks
+## Dataset Licenses
 
-| Dataset | Domain | Annotators | Pairwise Agreement |
-|---|---|---|---|
-| MT-Bench | Preference (6 models, QA/summarization) | 65 | 53.0% |
-| ConvAbuse | Conversational safety | 8 | 84.4% |
-| QAGS | Summarization factuality | 169 | — |
-| MSLR | Medical literature review | — | — |
-
-STABLEVAL yields the most stable rankings on MT-Bench (high disagreement) and matches other methods in high-consensus settings (ConvAbuse), confirming that disagreement-aware modeling adds value precisely when disagreement is informative.
+| Dataset | License |
+|---|---|
+| lmsys/mt\_bench\_human\_judgments | CC BY-NC-SA 4.0 |
+| ConvAbuse | CC BY-NC-SA 4.0 |
+| allenai/mslr-shared-task | Apache 2.0 |
+| QAGS | CC BY-NC-SA 4.0 |
 
 ---
 
@@ -212,11 +246,17 @@ STABLEVAL yields the most stable rankings on MT-Bench (high disagreement) and ma
 ```bibtex
 @inproceedings{bonagiri2026stableval,
   title     = {STABLEVAL: Disagreement-Aware and Stable Evaluation of AI Systems},
-  author    = {Bonagiri, Akash and Anderias, Gerard Janno and Patil, Saee and Lai, Angelina and Borkar, Devang and Kang, Gezheng and Gandhi, Ishant and Rafatirad, Setareh and Homayoun, Houman},
+  author    = {Bonagiri, Akash and Anderias, Gerard Janno and Patil, Saee and Lai, Angelina and
+               Borkar, Devang and Kang, Gezheng and Gandhi, Ishant and
+               Rafatirad, Setareh and Homayoun, Houman},
   booktitle = {Proceedings of the 43rd International Conference on Machine Learning},
   series    = {PMLR 306},
   year      = {2026},
-  address   = {Seoul, South Korea}
+  address   = {Seoul, South Korea},
+  eprint    = {2605.02122},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  url       = {https://arxiv.org/abs/2605.02122}
 }
 ```
 
